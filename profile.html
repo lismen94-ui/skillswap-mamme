@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#EBF5FA">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="description" content="Profilo Mamma Lisa su SkillSwap Mamme: gestione figli, disponibilità orarie, statistiche tempo e recensioni delle mamme di quartiere.">
+  <title>Profilo di Mamma Lisa | SkillSwap Mamme</title>
+
+  <!-- Google Fonts coerenti con index e dashboard -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Foglio di Stile Esterno Unificato -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <main class="app-viewport has-bottom-nav">
+    <!-- Decorazioni sfumate di sfondo -->
+    <div class="bg-blobs" aria-hidden="true">
+      <div class="blob-top"></div>
+      <div class="blob-left"></div>
+    </div>
+
+    <div class="profile-container">
+
+      <!-- Barra superiore con ritorno rapido alla dashboard -->
+      <div class="location-strip">
+        <div class="location-badge">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span>Profilo Personale</span>
+        </div>
+        <a href="dashboard.html" class="feed-refresh-link" style="display: flex; align-items: center; gap: 4px;">
+          <span>← Torna alla Bacheca</span>
+        </a>
+      </div>
+
+      <!-- 1. Header Profilo -->
+      <section class="profile-card-hero" aria-label="Informazioni utente">
+        <div class="profile-avatar-large">
+          <div class="avatar-img" aria-hidden="true">
+            <!-- SVG Avatar Mamma Lisa fedele e coerente -->
+            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="80" height="80" fill="#FFE8DF"/>
+              <path d="M40 44C49.9411 44 58 35.9411 58 26C58 16.0589 49.9411 8 40 8C30.0589 8 22 16.0589 22 26C22 35.9411 30.0589 44 40 44Z" fill="#8C5338"/>
+              <circle cx="40" cy="28" r="16" fill="#FED7C3"/>
+              <path d="M24 24C24 15 31 10 40 10C49 10 56 15 56 24C56 25 55 28 53 28C51 28 50 25 47 23C44 21 36 21 33 23C30 25 29 28 27 28C25 28 24 25 24 24Z" fill="#6A3B25"/>
+              <path d="M36 32C38 34 42 34 44 32" stroke="#B46A55" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="34" cy="27" r="1.5" fill="#522D1D"/>
+              <circle cx="46" cy="27" r="1.5" fill="#522D1D"/>
+              <circle cx="32" cy="30" r="2.5" fill="#FFAAA6" fill-opacity="0.6"/>
+              <circle cx="48" cy="30" r="2.5" fill="#FFAAA6" fill-opacity="0.6"/>
+              <path d="M16 68C16 54 26 47 40 47C54 47 64 54 64 68V80H16V68Z" fill="#4A98D3"/>
+              <path d="M33 47C33 52 47 52 47 47" fill="#FED7C3"/>
+            </svg>
+          </div>
+          <span class="profile-badge-status" title="Profilo attivo e verificato">✓</span>
+        </div>
+
+        <div class="profile-title-group">
+          <h1 class="profile-main-name">Mamma Lisa</h1>
+          <span class="badge-verified-school">
+            <span>🏫 Mamma Verificata</span>
+            <span>• Patto di Fiducia</span>
+          </span>
+          <p class="profile-location-text">
+            <span>🏫 Istituto Comprensivo Gianni Rodari</span>
+            <span>•</span>
+            <span>📍 Quartiere Isola, Milano</span>
+          </p>
+        </div>
+
+        <div class="profile-action-btn-row">
+          <button type="button" class="btn-profile-secondary" onclick="window.editProfile()">
+            <span>✏️ Modifica Dati</span>
+          </button>
+          <a href="index.html" class="btn-profile-secondary" style="text-decoration: none; color: #C53030; background: #FFF5F5; border-color: #FED7D7;">
+            <span>🚪 Esci</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- 2. Scheda I Miei Figli -->
+      <section class="profile-section-card" aria-label="Scheda I Miei Figli">
+        <div class="section-card-header">
+          <div class="section-card-title-wrap">
+            <div class="section-card-icon" aria-hidden="true">👶</div>
+            <h2 class="section-card-title">I Miei Figli</h2>
+          </div>
+          <span class="section-action-link" onclick="window.addChild()">+ Aggiungi</span>
+        </div>
+
+        <div class="children-list">
+          
+          <!-- Figlio 1: Tommaso -->
+          <article class="child-item-box">
+            <div class="child-top-row">
+              <div class="child-identity">
+                <div class="child-avatar-icon" aria-hidden="true">🧒🏼</div>
+                <div>
+                  <div class="child-name">Tommaso</div>
+                  <div class="child-school-tag">Scuola Primaria • Classe 3ªA</div>
+                </div>
+              </div>
+              <span class="child-age-pill">8 Anni</span>
+            </div>
+            <div class="child-support-notes">
+              <span class="notes-icon" aria-hidden="true">📌</span>
+              <div>
+                <strong>Supporto uscite:</strong> Uscita ore 16:30. Autorizzate al ritiro Mamma Elena e Mamma Giulia. Allergie: nessuna.
+              </div>
+            </div>
+          </article>
+
+          <!-- Figlio 2: Sole -->
+          <article class="child-item-box">
+            <div class="child-top-row">
+              <div class="child-identity">
+                <div class="child-avatar-icon" aria-hidden="true">👧🏼</div>
+                <div>
+                  <div class="child-name">Sole</div>
+                  <div class="child-school-tag">Scuola dell'Infanzia • Sezione Coccinelle</div>
+                </div>
+              </div>
+              <span class="child-age-pill">4 Anni</span>
+            </div>
+            <div class="child-support-notes">
+              <span class="notes-icon" aria-hidden="true">📌</span>
+              <div>
+                <strong>Supporto parco:</strong> Uscita ore 16:00. Frequenta il parchetto di Via Roma. Porta sempre merenda alla frutta.
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <button type="button" class="btn-add-child" onclick="window.addChild()">
+          <span>➕ Aggiungi un altro figlio o plesso</span>
+        </button>
+      </section>
+
+      <!-- 3. Le Mie Disponibilità -->
+      <section class="profile-section-card" aria-label="Le mie disponibilità di baratto tempo">
+        <div class="section-card-header">
+          <div class="section-card-title-wrap">
+            <div class="section-card-icon" aria-hidden="true">🤝</div>
+            <h2 class="section-card-title">Le Mie Disponibilità</h2>
+          </div>
+          <span class="section-action-link" onclick="window.editAvailabilities()">Modifica</span>
+        </div>
+
+        <div class="availabilities-wrap">
+          <div class="availability-tags-grid">
+            <span class="avail-pill active" title="Disponibile">
+              <span>🚗</span>
+              <span>Ritiro Scuola</span>
+            </span>
+            <span class="avail-pill active" title="Disponibile">
+              <span>🛝</span>
+              <span>Supervisione Parco</span>
+            </span>
+            <span class="avail-pill active" title="Disponibile">
+              <span>📚</span>
+              <span>Supporto Compiti</span>
+            </span>
+            <span class="avail-pill active" title="Disponibile">
+              <span>🚶</span>
+              <span>Accompagnamento Pedibus</span>
+            </span>
+            <span class="avail-pill" title="Su richiesta preventiva">
+              <span>👶</span>
+              <span>Babysitting Condiviso</span>
+            </span>
+          </div>
+
+          <div class="avail-schedule-box">
+            <span aria-hidden="true">🕒</span>
+            <div>
+              <strong>Fasce preferite:</strong> Lunedì, Mercoledì e Venerdì dalle 16:00 alle 18:30.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Statistiche & Recensioni -->
+      <section class="profile-section-card" aria-label="Statistiche ore e recensioni di quartiere">
+        <div class="section-card-header">
+          <div class="section-card-title-wrap">
+            <div class="section-card-icon" aria-hidden="true">⏱️</div>
+            <h2 class="section-card-title">Statistiche & Recensioni</h2>
+          </div>
+          <span class="badge-verified-school" style="font-size: 0.72rem; padding: 2px 8px;">
+            <span>⭐ 5.0 (18 Scambi)</span>
+          </span>
+        </div>
+
+        <!-- Griglia Saldo e Statistiche -->
+        <div class="stats-summary-grid">
+          <div class="stat-metric-card">
+            <span class="stat-metric-label">Ore Donate</span>
+            <span class="stat-metric-value highlight-green">12.5h</span>
+          </div>
+          <div class="stat-metric-card">
+            <span class="stat-metric-label">Ore Ricevute</span>
+            <span class="stat-metric-value">10.0h</span>
+          </div>
+          <div class="stat-metric-card">
+            <span class="stat-metric-label">Saldo Disponibile</span>
+            <span class="stat-metric-value highlight-green">⏱️ 2.5h</span>
+          </div>
+          <div class="stat-metric-card">
+            <span class="stat-metric-label">Scambi Felici</span>
+            <span class="stat-metric-value">18</span>
+          </div>
+        </div>
+
+        <!-- Box Recensioni e Ringraziamenti delle altre mamme -->
+        <div class="reviews-feed">
+          <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; margin-top: 4px;">
+            I Ringraziamenti delle altre mamme:
+          </div>
+
+          <!-- Recensione 1 -->
+          <article class="review-card-item">
+            <div class="review-author-row">
+              <div class="review-author-info">
+                <span class="review-avatar-mini" aria-hidden="true">👩🏻</span>
+                <span class="review-author-name">Mamma Elena (Classe 3A)</span>
+              </div>
+              <span class="review-stars">★★★★★</span>
+            </div>
+            <p class="review-quote">
+              "Lisa è stata un angelo custode quando sono rimasta bloccata in tangenziale: ha ritirato Marco e gli ha offerto la merenda insieme a Tommaso!"
+            </p>
+            <span class="review-tag">Scambio: Uscita Scuola 16:30</span>
+          </article>
+
+          <!-- Recensione 2 -->
+          <article class="review-card-item">
+            <div class="review-author-row">
+              <div class="review-author-info">
+                <span class="review-avatar-mini" aria-hidden="true">👱🏼‍♀️</span>
+                <span class="review-author-name">Mamma Sara</span>
+              </div>
+              <span class="review-stars">★★★★★</span>
+            </div>
+            <p class="review-quote">
+              "Pomeriggio al parco giochi organizzato benissimo. I bimbi si sono divertiti un mondo e io ho potuto fare la visita medica in serenità."
+            </p>
+            <span class="review-tag">Scambio: Supervisione Parco</span>
+          </article>
+
+          <!-- Recensione 3 -->
+          <article class="review-card-item">
+            <div class="review-author-row">
+              <div class="review-author-info">
+                <span class="review-avatar-mini" aria-hidden="true">👩🏽</span>
+                <span class="review-author-name">Mamma Giulia (Classe 1B)</span>
+              </div>
+              <span class="review-stars">★★★★★</span>
+            </div>
+            <p class="review-quote">
+              "Pedibus sempre puntuale e sicuro da Piazza Segrino. Che bellezza poter contare su mamme così affidabili nello stesso quartiere!"
+            </p>
+            <span class="review-tag">Scambio: Pedibus Rodari</span>
+          </article>
+
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- 5. Barra di Navigazione in Basso (Identica a dashboard.html con 'Profilo' attivo) -->
+    <nav class="bottom-nav" aria-label="Navigazione principale">
+      
+      <button type="button" class="nav-item" data-tab="home" onclick="window.switchTab(this, 'Bacheca Annunci')">
+        <span class="nav-icon">🏠</span>
+        <span>Home</span>
+      </button>
+
+      <button type="button" class="nav-item" data-tab="chat" onclick="window.switchTab(this, 'Messaggi e Chat')">
+        <span class="nav-icon">💬</span>
+        <span>Chat</span>
+        <span class="nav-badge-dot" title="2 messaggi non letti"></span>
+      </button>
+
+      <button type="button" class="nav-item" data-tab="scambi" onclick="window.switchTab(this, 'I tuoi Scambi di Tempo')">
+        <span class="nav-icon">📅</span>
+        <span>Miei Scambi</span>
+      </button>
+
+      <button type="button" class="nav-item active" data-tab="profilo" onclick="window.switchTab(this, 'Profilo di Mamma Lisa')">
+        <span class="nav-icon">👤</span>
+        <span>Profilo</span>
+      </button>
+
+    </nav>
+  </main>
+
+  <!-- Toast Notifica Condiviso -->
+  <div id="toastBox" class="toast-box" role="status" aria-live="polite">
+    <span id="toastIcon">🌸</span>
+    <span id="toastMsg">Operazione completata</span>
+  </div>
+
+  <!-- Script Applicativo Esterno (Zero codice JS interno) -->
+  <script src="js/script.js"></script>
+</body>
+</html>

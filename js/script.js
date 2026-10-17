@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initToasts();
   initLoginPage();
   initDashboardPage();
+  initProfilePage();
 });
 
 /* ==========================================================================
@@ -260,10 +261,50 @@ function initDashboardPage() {
     window.showToast('Annuncio pubblicato con successo nella bacheca di quartiere!', '🎉');
   };
 
-  // Navigazione Bottom Tab
+  // Navigazione Bottom Tab (Unificata e reattiva)
   window.switchTab = function(btn, title) {
+    const tabKey = btn ? btn.getAttribute('data-tab') : '';
+    
+    if (tabKey === 'home' && !window.location.pathname.endsWith('dashboard.html')) {
+      window.location.href = 'dashboard.html';
+      return;
+    }
+
+    if (tabKey === 'profilo' && !window.location.pathname.endsWith('profile.html')) {
+      window.location.href = 'profile.html';
+      return;
+    }
+
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     if (btn) btn.classList.add('active');
-    window.showToast(`Sezione: ${title}`, '📌');
+    
+    if (tabKey === 'chat') {
+      window.showToast('💬 Chat di quartiere: 2 messaggi attivi', '💬');
+    } else if (tabKey === 'scambi') {
+      window.showToast('📅 I tuoi scambi: 2 appuntamenti questa settimana', '📅');
+    } else {
+      window.showToast(`Sezione: ${title}`, '📌');
+    }
+  };
+}
+
+/* ==========================================================================
+   4. Logica Pagina Profilo (profile.html)
+   ========================================================================== */
+
+function initProfilePage() {
+  const profileContainer = document.querySelector('.profile-container');
+  if (!profileContainer) return;
+
+  window.editProfile = function() {
+    window.showToast('Modifica profilo: dati e contatti aggiornabili', '✏️');
+  };
+
+  window.addChild = function() {
+    window.showToast('Aggiungi figlio: compilazione scheda asilo o scuola primaria', '👶');
+  };
+
+  window.editAvailabilities = function() {
+    window.showToast('Disponibilità aggiornate con successo!', '✨');
   };
 }

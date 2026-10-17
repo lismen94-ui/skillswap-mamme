@@ -1418,3 +1418,458 @@ body:has(.bottom-nav) .toast-notification {
   transform: translateX(-50%) translateY(0);
   opacity: 1;
 }
+
+/* ==========================================================================
+   PAGINA PROFILO (profile.html)
+   Header, Figli, Disponibilità, Statistiche & Recensioni
+   ========================================================================== */
+
+.profile-container {
+  position: relative;
+  z-index: 1;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 1. Header Profilo */
+.profile-card-hero {
+  background: #FFFFFF;
+  border: 1.5px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  gap: 12px;
+}
+
+.profile-avatar-large {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, #4A98D3, #A0D6FA);
+  box-shadow: 0 8px 24px rgba(50, 130, 184, 0.25);
+}
+
+.profile-avatar-large .avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #FFF0E6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 2.5px solid #FFFFFF;
+}
+
+.profile-badge-status {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--emerald-green);
+  border: 3px solid #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 11px;
+}
+
+.profile-title-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.profile-main-name {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #163654;
+  letter-spacing: -0.02em;
+}
+
+.badge-verified-school {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #E8F8F5;
+  color: #065F46;
+  border: 1px solid #A7F3D0;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.1);
+}
+
+.profile-location-text {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.profile-action-btn-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.btn-profile-secondary {
+  flex: 1;
+  background: #F1F6FB;
+  border: 1px solid #D2E4F2;
+  color: var(--primary-dark);
+  padding: 9px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-profile-secondary:hover {
+  background: #E5F0FA;
+  border-color: #B8D6ED;
+}
+
+/* Card Sezioni Profilo */
+.profile-section-card {
+  background: #FFFFFF;
+  border: 1.5px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #EDF3F8;
+  padding-bottom: 12px;
+}
+
+.section-card-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-card-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--powder-blue-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.section-card-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #173753;
+  letter-spacing: -0.015em;
+}
+
+.section-action-link {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 2. Scheda I Miei Figli */
+.children-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.child-item-box {
+  background: #FAFBFD;
+  border: 1.2px solid #E2EBF2;
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.2s ease;
+}
+
+.child-item-box:hover {
+  border-color: #BCD7EC;
+}
+
+.child-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.child-identity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.child-avatar-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #FFF0E6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  border: 1.5px solid #FFFFFF;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.child-name {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #173753;
+}
+
+.child-school-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.child-age-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background: #E8F4FC;
+  color: #1F5B82;
+}
+
+.child-support-notes {
+  font-size: 0.81rem;
+  color: #4A5D6E;
+  line-height: 1.4;
+  background: #FFFFFF;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px dashed #D6E3EE;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.child-support-notes span.notes-icon {
+  font-size: 0.9rem;
+  margin-top: 1px;
+}
+
+.btn-add-child {
+  width: 100%;
+  padding: 10px;
+  background: #FAFBFD;
+  border: 1.5px dashed #C8DBEA;
+  border-radius: var(--radius-sm);
+  color: var(--primary);
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.btn-add-child:hover {
+  background: #EFF6FB;
+  border-color: var(--primary);
+}
+
+/* 3. Le Mie Disponibilità */
+.availabilities-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.availability-tags-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.avail-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: #F0F7FC;
+  color: #1F5B82;
+  border: 1px solid #D4E6F4;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.avail-pill.active {
+  background: #E8F8F3;
+  color: #065F46;
+  border-color: #A7F3D0;
+}
+
+.avail-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(31, 91, 130, 0.06);
+}
+
+.avail-schedule-box {
+  background: linear-gradient(135deg, #F8FAFC 0%, #F1F6FB 100%);
+  border: 1px solid #D8E5F0;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avail-schedule-box strong {
+  color: #173753;
+}
+
+/* 4. Statistiche & Recensioni */
+.stats-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.stat-metric-card {
+  background: #F9FBFC;
+  border: 1px solid #E1EAF2;
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-metric-value {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #163654;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.stat-metric-value.highlight-green {
+  color: #10B981;
+}
+
+.stat-metric-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Box Recensioni e Ringraziamenti */
+.reviews-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.review-card-item {
+  background: #FAFBFD;
+  border: 1px solid #E5ECF3;
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.review-author-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.review-author-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.review-avatar-mini {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #E8F2FA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+}
+
+.review-author-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #173753;
+}
+
+.review-stars {
+  font-size: 0.75rem;
+  color: #F59E0B;
+}
+
+.review-quote {
+  font-size: 0.82rem;
+  color: #334E68;
+  font-style: italic;
+  line-height: 1.38;
+}
+
+.review-tag {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--primary);
+  align-self: flex-start;
+}
+
