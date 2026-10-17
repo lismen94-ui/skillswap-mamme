@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#EBF5FA">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="description" content="Dashboard SkillSwap Mamme: bacheca scambi di quartiere, banca del tempo e mutuo soccorso tra famiglie.">
+  <title>Bacheca Quartiere | SkillSwap Mamme</title>
+
+  <!-- Google Fonts coerenti con index.html -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Palette Pastello Rassicurante e Coerente */
+      --primary: #3282B8;
+      --primary-dark: #1F5B82;
+      --primary-light: #EBF4FA;
+      --primary-gradient: linear-gradient(135deg, #4A98D3 0%, #2B73A8 100%);
+      
+      --powder-blue-light: #EBF3F9;
+      --powder-blue: #7CA1BF;
+      --powder-blue-dark: #2B577A;
+
+      --emerald-green: #10B981;
+      --emerald-gradient: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      --emerald-bg: #E8F8F3;
+
+      --coral-red: #F05454;
+      --coral-gradient: linear-gradient(135deg, #F05454 0%, #D83A3A 100%);
+      --coral-bg: #FEECEB;
+
+      --amber-gold: #F59E0B;
+      --amber-bg: #FEF3C7;
+
+      --bg-gradient: linear-gradient(180deg, #F2F8FC 0%, #FAFBFD 45%, #F7F5FC 100%);
+      --card-bg: rgba(255, 255, 255, 0.96);
+      --card-border: rgba(222, 234, 243, 0.95);
+      
+      --text-main: #1C2D42;
+      --text-muted: #5C6E82;
+      --text-light: #8E9FAA;
+
+      --shadow-sm: 0 4px 12px rgba(31, 91, 130, 0.05);
+      --shadow-md: 0 8px 24px rgba(31, 91, 130, 0.08);
+      --shadow-lg: 0 16px 36px rgba(31, 91, 130, 0.12);
+      
+      --radius-sm: 12px;
+      --radius-md: 18px;
+      --radius-lg: 24px;
+      --radius-full: 9999px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* Contenitore mobile-first (max-width 480px, centrato stile telefono su desktop) */
+    .app-viewport {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      background: #FAFCFE;
+      position: relative;
+      box-shadow: 0 0 50px rgba(35, 78, 112, 0.1);
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 96px; /* Spazio per bottom nav fissa */
+    }
+
+    @media (min-width: 481px) {
+      body {
+        padding: 20px 16px;
+        background: radial-gradient(circle at 10% 20%, #E8F2FA 0%, #F5F7FB 100%);
+      }
+      .app-viewport {
+        border-radius: 36px;
+        min-height: 940px;
+        margin: auto;
+        border: 8px solid rgba(255, 255, 255, 0.75);
+        outline: 1px solid rgba(210, 226, 238, 0.6);
+        overflow: hidden;
+      }
+    }
+
+    /* Sfondo morbido sfumato */
+    .bg-blobs {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 320px;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .blob-top {
+      position: absolute;
+      top: -60px;
+      right: -50px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(160, 214, 250, 0.4) 0%, rgba(205, 235, 255, 0.05) 70%);
+      filter: blur(20px);
+    }
+
+    .blob-left {
+      position: absolute;
+      top: 100px;
+      left: -60px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(230, 245, 255, 0.6) 0%, rgba(240, 249, 255, 0.05) 70%);
+      filter: blur(22px);
+    }
+
+    /* Struttura contenuto */
+    .dashboard-content {
+      position: relative;
+      z-index: 1;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Barra superiore quartierale */
+    .location-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--powder-blue-dark);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 7px 14px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(200, 222, 238, 0.6);
+      box-shadow: 0 2px 6px rgba(31, 91, 130, 0.03);
+    }
+
+    .location-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--emerald-green);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+    }
+
+    .school-name {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* 1. Header Utente con Saldo Tempo */
+    .user-header-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      border: 1.5px solid var(--card-border);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .profile-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .profile-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* Foto Profilo Mamma */
+    .avatar-wrapper {
+      position: relative;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      padding: 2px;
+      background: linear-gradient(135deg, #4A98D3, #A0D6FA);
+      box-shadow: 0 4px 12px rgba(50, 130, 184, 0.2);
+    }
+
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #FFF0E6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 2px solid #FFFFFF;
+    }
+
+    .avatar-img svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .status-badge {
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--emerald-green);
+      border: 2.5px solid #FFFFFF;
+    }
+
+    .user-greeting {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .user-name {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #173753;
+      letter-spacing: -0.015em;
+      line-height: 1.2;
+    }
+
+    .user-class-tag {
+      font-size: 0.74rem;
+      color: var(--primary);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid #E2EBF2;
+      background: #F7FAFC;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s ease;
+      color: var(--text-muted);
+    }
+
+    .icon-btn:hover {
+      background: #EEF4F9;
+      color: var(--primary);
+    }
+
+    .notif-badge {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 8px;
+      height: 8px;
+      background: var(--coral-red);
+      border-radius: 50%;
+      border: 1.5px solid #FFFFFF;
+    }
+
+    /* Box Saldo Tempo Ben Visibile */
+    .time-balance-box {
+      background: linear-gradient(135deg, #F0F7FC 0%, #E6F1F9 100%);
+      border: 1.5px solid #D6E7F4;
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .time-balance-box::before {
+      content: "";
+      position: absolute;
+      right: -15px;
+      top: -15px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(74, 152, 211, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .balance-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .balance-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #375975;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .balance-amount {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #133959;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .balance-subtext {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #10B981;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .balance-btn {
+      background: #FFFFFF;
+      border: 1px solid #C8DFEF;
+      color: var(--primary-dark);
+      padding: 7px 13px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(43, 115, 168, 0.08);
+      transition: all 0.2s ease;
+    }
+
+    .balance-btn:hover {
+      background: #F0F6FA;
+      border-color: #B4D3E9;
+    }
+
+    /* 2. Pulsanti Veloci d'Azione */
+    .quick-actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .action-btn {
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.2s ease;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .action-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Pulsante verde/azzurro: Offro Tempo */
+    .action-btn.btn-offer {
+      background: linear-gradient(135deg, #10B981 0%, #0D9488 100%);
+      color: #FFFFFF;
+      box-shadow: 0 8px 18px rgba(16, 185, 129, 0.25);
+    }
+
+    .action-btn.btn-offer:hover {
+      box-shadow: 0 10px 22px rgba(16, 185, 129, 0.32);
+    }
+
+    /* Pulsante risalto/emergenza: SOS */
+    .action-btn.btn-sos {
+      background: linear-gradient(135deg, #F05454 0%, #D83A3A 100%);
+      color: #FFFFFF;
+      box-shadow: 0 8px 18px rgba(240, 84, 84, 0.26);
+    }
+
+    .action-btn.btn-sos:hover {
+      box-shadow: 0 10px 22px rgba(240, 84, 84, 0.34);
+    }
+
+    .action-btn-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+    }
+
+    .action-btn-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .action-btn-title {
+      font-size: 0.92rem;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .action-btn-sub {
+      font-size: 0.72rem;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+
+    /* 3. Sezione Bacheca Annunci di Quartiere (Feed) */
+    .feed-section {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .feed-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .feed-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feed-title {
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: #173753;
+      letter-spacing: -0.02em;
+    }
+
+    .feed-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: #E8F2FA;
+      color: var(--primary-dark);
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+    }
+
+    .feed-refresh-link {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Filtri Rapidi (Chips) */
+    .filter-pills-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+
+    .filter-pills-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-pill {
+      background: #FFFFFF;
+      border: 1px solid #DCE6EF;
+      color: var(--text-muted);
+      padding: 7px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: inherit;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 4px rgba(31, 91, 130, 0.02);
+    }
+
+    .filter-pill:hover {
+      border-color: #BBD6EA;
+      color: var(--primary-dark);
+    }
+
+    .filter-pill.active {
+      background: var(--primary);
+      color: #FFFFFF;
+      border-color: var(--primary);
+      box-shadow: 0 4px 10px rgba(50, 130, 184, 0.25);
+    }
+
+    /* Lista Tessere Feed */
+    .feed-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .feed-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .feed-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: #C6DDEE;
+      transform: translateY(-1px);
+    }
+
+    /* Card header con autore, distanza e tempo */
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .author-block {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .author-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #F0F4F8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    .author-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .author-name-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .author-name {
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: #173753;
+    }
+
+    .class-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: #EAF4FC;
+      color: var(--primary-dark);
+      padding: 1px 7px;
+      border-radius: 6px;
+    }
+
+    .author-sub {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .distance-tag {
+      color: #0E7490;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    /* Badge tipologia annuncio */
+    .type-pill {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+      white-space: nowrap;
+    }
+
+    .type-pill.urgent {
+      background: #FEECEB;
+      color: #DC2626;
+      border: 1px solid #FECACA;
+    }
+
+    .type-pill.support {
+      background: #E8F8F3;
+      color: #059669;
+      border: 1px solid #A7F3D0;
+    }
+
+    .type-pill.school {
+      background: #EFF6FF;
+      color: #2563EB;
+      border: 1px solid #BFDBFE;
+    }
+
+    /* Contenuto annuncio */
+    .card-message {
+      font-size: 0.88rem;
+      color: #2D3E50;
+      line-height: 1.42;
+    }
+
+    .card-highlight {
+      font-weight: 700;
+      color: #163654;
+    }
+
+    /* Card Footer: tempo stimato e pulsante rispondi */
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 10px;
+      border-top: 1px solid #EDF3F8;
+    }
+
+    .time-estimate {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #375975;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #F1F6FA;
+      padding: 4px 9px;
+      border-radius: 8px;
+    }
+
+    .btn-reply {
+      background: var(--primary-gradient);
+      color: #FFFFFF;
+      font-size: 0.84rem;
+      font-weight: 700;
+      font-family: inherit;
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 10px rgba(43, 115, 168, 0.2);
+      transition: all 0.2s ease;
+    }
+
+    .btn-reply:hover {
+      box-shadow: 0 6px 14px rgba(43, 115, 168, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .btn-reply:active {
+      transform: scale(0.97);
+    }
+
+    /* 4. Barra di Navigazione in Basso (Bottom Nav Bar) */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(220, 233, 244, 0.9);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 12px;
+      padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+      z-index: 50;
+      box-shadow: 0 -4px 20px rgba(31, 91, 130, 0.06);
+    }
+
+    @media (min-width: 481px) {
+      .bottom-nav {
+        border-radius: 0 0 28px 28px;
+      }
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      color: #7A8E9E;
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    .nav-item.active {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .nav-icon {
+      font-size: 1.25rem;
+      line-height: 1;
+      transition: transform 0.2s;
+    }
+
+    .nav-item.active .nav-icon {
+      transform: translateY(-2px);
+    }
+
+    .nav-item:hover {
+      color: var(--primary);
+    }
+
+    .nav-badge-dot {
+      position: absolute;
+      top: 4px;
+      right: 18px;
+      width: 8px;
+      height: 8px;
+      background: var(--coral-red);
+      border-radius: 50%;
+      border: 1.5px solid #FFFFFF;
+    }
+
+    /* Modale Risposta Rapida */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(18, 42, 66, 0.45);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-sheet {
+      width: 100%;
+      max-width: 480px;
+      background: #FFFFFF;
+      border-radius: 28px 28px 0 0;
+      padding: 24px 22px 34px 22px;
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.active .modal-sheet {
+      transform: translateY(0);
+    }
+
+    .modal-indicator {
+      width: 40px;
+      height: 4px;
+      background: #D5E1EB;
+      border-radius: var(--radius-full);
+      margin: 0 auto 16px auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .modal-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #F0F4F8;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    /* Template messaggi rapidi */
+    .quick-replies-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin: 14px 0;
+    }
+
+    .quick-reply-label {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .quick-pill-btn {
+      background: #F1F6FB;
+      border: 1px solid #D6E4F0;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 0.82rem;
+      color: var(--text-main);
+      text-align: left;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s;
+    }
+
+    .quick-pill-btn:hover {
+      background: #E4EFF8;
+      border-color: #B9D5EB;
+    }
+
+    .reply-textarea {
+      width: 100%;
+      height: 90px;
+      border: 1.5px solid #D6E3ED;
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      color: var(--text-main);
+      resize: none;
+      outline: none;
+    }
+
+    .reply-textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(50, 130, 184, 0.15);
+    }
+
+    .btn-modal-send {
+      width: 100%;
+      height: 48px;
+      background: var(--primary-gradient);
+      color: #FFFFFF;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 16px rgba(43, 115, 168, 0.25);
+    }
+
+    /* Toast Notification */
+    .toast-box {
+      position: fixed;
+      bottom: 84px;
+      left: 50%;
+      transform: translateX(-50%) translateY(50px);
+      background: #1B3855;
+      color: #FFFFFF;
+      padding: 12px 20px;
+      border-radius: var(--radius-full);
+      font-size: 0.86rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow-lg);
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .toast-box.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <main class="app-viewport">
+    <!-- Decorazioni sfumate di sfondo -->
+    <div class="bg-blobs" aria-hidden="true">
+      <div class="blob-top"></div>
+      <div class="blob-left"></div>
+    </div>
+
+    <div class="dashboard-content">
+
+      <!-- Barra di stato geografica -->
+      <div class="location-strip">
+        <div class="location-badge">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span>Plesso Rodari • Quartiere Isola</span>
+        </div>
+        <span class="school-name">34 mamme online</span>
+      </div>
+
+      <!-- 1. Header Utente con Saldo Tempo -->
+      <section class="user-header-card" aria-label="Profilo e saldo utente">
+        <div class="profile-row">
+          
+          <div class="profile-info">
+            <!-- Foto Profilo della Mamma -->
+            <div class="avatar-wrapper" aria-hidden="true">
+              <div class="avatar-img">
+                <!-- SVG Avatar Mamma Lisa con toni pastello caldi e rassicuranti -->
+                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Sfondo avatar caldo -->
+                  <rect width="80" height="80" fill="#FFE8DF"/>
+                  <!-- Silhouette elegante mamma -->
+                  <path d="M40 44C49.9411 44 58 35.9411 58 26C58 16.0589 49.9411 8 40 8C30.0589 8 22 16.0589 22 26C22 35.9411 30.0589 44 40 44Z" fill="#8C5338"/>
+                  <!-- Viso e sorriso -->
+                  <circle cx="40" cy="28" r="16" fill="#FED7C3"/>
+                  <!-- Capelli acconciatura morbida -->
+                  <path d="M24 24C24 15 31 10 40 10C49 10 56 15 56 24C56 25 55 28 53 28C51 28 50 25 47 23C44 21 36 21 33 23C30 25 29 28 27 28C25 28 24 25 24 24Z" fill="#6A3B25"/>
+                  <!-- Sorriso dolce -->
+                  <path d="M36 32C38 34 42 34 44 32" stroke="#B46A55" stroke-width="2" stroke-linecap="round"/>
+                  <!-- Occhi sereni -->
+                  <circle cx="34" cy="27" r="1.5" fill="#522D1D"/>
+                  <circle cx="46" cy="27" r="1.5" fill="#522D1D"/>
+                  <!-- Guance rosee -->
+                  <circle cx="32" cy="30" r="2.5" fill="#FFAAA6" fill-opacity="0.6"/>
+                  <circle cx="48" cy="30" r="2.5" fill="#FFAAA6" fill-opacity="0.6"/>
+                  <!-- Maglia pastello azzurro polvere -->
+                  <path d="M16 68C16 54 26 47 40 47C54 47 64 54 64 68V80H16V68Z" fill="#4A98D3"/>
+                  <path d="M33 47C33 52 47 52 47 47" fill="#FED7C3"/>
+                </svg>
+              </div>
+              <span class="status-badge" title="Attiva ora"></span>
+            </div>
+
+            <div>
+              <div class="user-greeting">Bentornata,</div>
+              <h1 class="user-name">Mamma Lisa</h1>
+              <div class="user-class-tag">Mamma di Tommaso (Classe 3ªA)</div>
+            </div>
+          </div>
+
+          <!-- Pulsanti notifiche e opzioni -->
+          <div class="header-actions">
+            <button type="button" class="icon-btn" aria-label="Notifiche" onclick="window.showToast('Nessuna nuova notifica urgente', '🔔')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+              </svg>
+              <span class="notif-badge"></span>
+            </button>
+            <a href="index.html" class="icon-btn" title="Esci / Schermata iniziale" aria-label="Disconnetti">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Box con Saldo Tempo Ben Visibile -->
+        <div class="time-balance-box">
+          <div class="balance-details">
+            <span class="balance-label">Il tuo Saldo Tempo</span>
+            <div class="balance-amount">
+              <span>⏱️ 2.5 Ore</span>
+            </div>
+            <span class="balance-subtext">
+              <span>↗️ +30 min accumulati questa settimana</span>
+            </span>
+          </div>
+          <button type="button" class="balance-btn" onclick="window.showToast('Saldo tempo: 2.5 ore disponibili per scambi e babysitting', '⏱️')">
+            Storico ↗
+          </button>
+        </div>
+      </section>
+
+      <!-- 2. Pulsanti Veloci d'Azione -->
+      <section class="quick-actions-grid" aria-label="Azioni rapide">
+        
+        <!-- Pulsante verde/azzurro: Offro Tempo -->
+        <button type="button" id="btnOfferTime" class="action-btn btn-offer" onclick="window.openCreateModal('offer')">
+          <div class="action-btn-icon" aria-hidden="true">
+            <span>➕</span>
+          </div>
+          <div class="action-btn-text">
+            <span class="action-btn-title">Offro Tempo</span>
+            <span class="action-btn-sub">Disponibilità & Aiuto</span>
+          </div>
+        </button>
+
+        <!-- Pulsante emergenza/risalto: Cerco Aiuto / SOS -->
+        <button type="button" id="btnSosHelp" class="action-btn btn-sos" onclick="window.openCreateModal('sos')">
+          <div class="action-btn-icon" aria-hidden="true">
+            <span>🚨</span>
+          </div>
+          <div class="action-btn-text">
+            <span class="action-btn-title">Cerco Aiuto</span>
+            <span class="action-btn-sub">Richiesta Rapida / SOS</span>
+          </div>
+        </button>
+
+      </section>
+
+      <!-- 3. Bacheca Annunci di Quartiere (Feed) -->
+      <section class="feed-section" aria-label="Bacheca annunci di quartiere">
+        
+        <div class="feed-header">
+          <div class="feed-title-wrap">
+            <h2 class="feed-title">Bacheca di Quartiere</h2>
+            <span class="feed-badge" id="cardCounter">3 annunci</span>
+          </div>
+          <span class="feed-refresh-link" onclick="window.showToast('Bacheca aggiornata in tempo reale', '🔄')">Aggiorna</span>
+        </div>
+
+        <!-- Sezione Filtro Rapido -->
+        <div class="filter-pills-bar" role="tablist" aria-label="Filtra annunci">
+          <button type="button" class="filter-pill active" data-filter="all">
+            <span>Tutti</span>
+          </button>
+          <button type="button" class="filter-pill" data-filter="scuola">
+            <span>🏫 Scuola</span>
+          </button>
+          <button type="button" class="filter-pill" data-filter="parco">
+            <span>🌳 Parco / Pomeriggio</span>
+          </button>
+        </div>
+
+        <!-- Lista Tessere (Card) del Feed -->
+        <div class="feed-list" id="feedList">
+          
+          <!-- Card 1: Elena (Scuola) -->
+          <article class="feed-card" data-category="scuola">
+            <div class="card-top">
+              <div class="author-block">
+                <div class="author-avatar" style="background: #EAF4FC;">👩🏻</div>
+                <div class="author-meta">
+                  <div class="author-name-row">
+                    <span class="author-name">Mamma Elena</span>
+                    <span class="class-badge">Classe 3A</span>
+                  </div>
+                  <div class="author-sub">
+                    <span class="distance-tag">📍 A 200m</span>
+                    <span>• 15 min fa</span>
+                  </div>
+                </div>
+              </div>
+              <span class="type-pill urgent">🚨 Richiesta</span>
+            </div>
+
+            <p class="card-message">
+              <span class="card-highlight">Uscita scuola ore 16:30</span>: Cerco aiuto per ritirare Marco. Sono bloccata in tangenziale per un guasto, qualcuna riesce ad aspettarmi in cortile?
+            </p>
+
+            <div class="card-footer">
+              <div class="time-estimate">
+                <span>⏱️ Tempo stimato: 30 min</span>
+              </div>
+              <button type="button" class="btn-reply" onclick="window.openReplyModal('Mamma Elena', 'ritiro Marco alle 16:30', '30 min')">
+                <span>Rispondi</span>
+                <span>💬</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- Card 2: Sara (Parco / Pomeriggio) -->
+          <article class="feed-card" data-category="parco">
+            <div class="card-top">
+              <div class="author-block">
+                <div class="author-avatar" style="background: #E8F8F3;">👱🏼‍♀️</div>
+                <div class="author-meta">
+                  <div class="author-name-row">
+                    <span class="author-name">Mamma Sara</span>
+                    <span class="class-badge">2 bimbi</span>
+                  </div>
+                  <div class="author-sub">
+                    <span class="distance-tag">📍 A 400m</span>
+                    <span>• 45 min fa</span>
+                  </div>
+                </div>
+              </div>
+              <span class="type-pill support">🤝 Offro Tempo</span>
+            </div>
+
+            <p class="card-message">
+              <span class="card-highlight">Oggi dalle 16:00 sono al parco di Via Roma</span> (zona altalene): Offro supporto/compagnia e sorveglianza se qualcuna ha commissioni veloci da sbrigare!
+            </p>
+
+            <div class="card-footer">
+              <div class="time-estimate">
+                <span>⏱️ Tempo stimato: 1 ora</span>
+              </div>
+              <button type="button" class="btn-reply" onclick="window.openReplyModal('Mamma Sara', 'compagnia al parco di Via Roma', '1 ora')">
+                <span>Rispondi</span>
+                <span>💬</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- Card 3: Giulia (Scuola - Pedibus) -->
+          <article class="feed-card" data-category="scuola">
+            <div class="card-top">
+              <div class="author-block">
+                <div class="author-avatar" style="background: #FFF4E6;">👩🏽</div>
+                <div class="author-meta">
+                  <div class="author-name-row">
+                    <span class="author-name">Mamma Giulia</span>
+                    <span class="class-badge">Classe 1B</span>
+                  </div>
+                  <div class="author-sub">
+                    <span class="distance-tag">📍 A 150m</span>
+                    <span>• 2 ore fa</span>
+                  </div>
+                </div>
+              </div>
+              <span class="type-pill school">🚶 Pedibus</span>
+            </div>
+
+            <p class="card-message">
+              <span class="card-highlight">Domani mattina ore 8:15</span>: Parto da Piazza Segrino per la Rodari a piedi. Posso accompagnare altri 2 bimbi in sicurezza.
+            </p>
+
+            <div class="card-footer">
+              <div class="time-estimate">
+                <span>⏱️ Tempo stimato: 20 min</span>
+              </div>
+              <button type="button" class="btn-reply" onclick="window.openReplyModal('Mamma Giulia', 'pedibus domani mattina ore 8:15', '20 min')">
+                <span>Rispondi</span>
+                <span>💬</span>
+              </button>
+            </div>
+          </article>
+
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- 4. Barra di Navigazione in Basso (Bottom Nav Bar) -->
+    <nav class="bottom-nav" aria-label="Navigazione principale">
+      
+      <button type="button" class="nav-item active" data-tab="home" onclick="window.switchTab(this, 'Bacheca Annunci')">
+        <span class="nav-icon">🏠</span>
+        <span>Home</span>
+      </button>
+
+      <button type="button" class="nav-item" data-tab="chat" onclick="window.switchTab(this, 'Messaggi e Chat')">
+        <span class="nav-icon">💬</span>
+        <span>Chat</span>
+        <span class="nav-badge-dot" title="2 messaggi non letti"></span>
+      </button>
+
+      <button type="button" class="nav-item" data-tab="scambi" onclick="window.switchTab(this, 'I tuoi Scambi di Tempo')">
+        <span class="nav-icon">📅</span>
+        <span>Miei Scambi</span>
+      </button>
+
+      <button type="button" class="nav-item" data-tab="profilo" onclick="window.switchTab(this, 'Profilo di Mamma Lisa')">
+        <span class="nav-icon">👤</span>
+        <span>Profilo</span>
+      </button>
+
+    </nav>
+  </main>
+
+  <!-- Modale di Risposta Rapida -->
+  <div id="replyModal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-sheet">
+      <div class="modal-indicator"></div>
+      
+      <div class="modal-header">
+        <h3 class="modal-title" id="replyModalTitle">Rispondi all'annuncio</h3>
+        <button type="button" class="modal-close" onclick="window.closeReplyModal()" aria-label="Chiudi finestra">✕</button>
+      </div>
+
+      <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;" id="replyModalDesc">
+        Invia un messaggio diretto per confermare la tua disponibilità.
+      </div>
+
+      <div class="quick-replies-group">
+        <span class="quick-reply-label">Risposte veloci suggerite:</span>
+        <button type="button" class="quick-pill-btn" onclick="window.setQuickReply('Ciao! Sono disponibile io, posso aiutarti volentieri!')">
+          ✨ "Ciao! Sono disponibile io, posso aiutarti volentieri!"
+        </button>
+        <button type="button" class="quick-pill-btn" onclick="window.setQuickReply('Ci penso io! Tommaso è nella stessa classe, li ritiro insieme.')">
+          🎒 "Ci penso io! Li ritiro insieme all'uscita."
+        </button>
+        <button type="button" class="quick-pill-btn" onclick="window.setQuickReply('Arrivo al parco tra 10 minuti, ci vediamo lì!')">
+          🌳 "Arrivo tra 10 minuti, ci vediamo lì!"
+        </button>
+      </div>
+
+      <textarea id="replyText" class="reply-textarea" placeholder="Scrivi il tuo messaggio qui..."></textarea>
+
+      <button type="button" class="btn-modal-send" onclick="window.sendReply()">
+        <span>Invia Risposta & Apri Chat</span>
+        <span>🚀</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Modale Creazione Annuncio (Offro / SOS) -->
+  <div id="createModal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-sheet">
+      <div class="modal-indicator"></div>
+      
+      <div class="modal-header">
+        <h3 class="modal-title" id="createModalTitle">Nuovo Annuncio</h3>
+        <button type="button" class="modal-close" onclick="window.closeCreateModal()" aria-label="Chiudi finestra">✕</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 8px;">
+        <div>
+          <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-main); display: block; margin-bottom: 5px;">Categoria</label>
+          <select id="newAnnounceCategory" style="width: 100%; height: 44px; border: 1.5px solid #D6E3ED; border-radius: 12px; padding: 0 12px; font-family: inherit;">
+            <option value="scuola">🏫 Uscita Scuola / Pedibus</option>
+            <option value="parco">🌳 Parco / Pomeriggio insieme</option>
+            <option value="compiti">📚 Aiuto Compiti & Studio</option>
+            <option value="emergenza">🚨 Urgenza / Imprevisto lavorativo</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-main); display: block; margin-bottom: 5px;">Tempo stimato</label>
+          <select id="newAnnounceTime" style="width: 100%; height: 44px; border: 1.5px solid #D6E3ED; border-radius: 12px; padding: 0 12px; font-family: inherit;">
+            <option value="30 min">30 minuti (0.5 Ore)</option>
+            <option value="1 ora">1 ora (1.0 Ora)</option>
+            <option value="2 ore">2 ore (2.0 Ore)</option>
+            <option value="15 min">15 minuti (Piccolo favore)</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-main); display: block; margin-bottom: 5px;">Descrizione per il quartiere</label>
+          <textarea id="newAnnounceText" class="reply-textarea" placeholder="Descrivi di cosa hai bisogno o cosa offri alle altre mamme..."></textarea>
+        </div>
+
+        <button type="button" class="btn-modal-send" onclick="window.publishNewAnnouncement()">
+          <span>Pubblica in Bacheca</span>
+          <span>📢</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifica -->
+  <div id="toastBox" class="toast-box" role="status" aria-live="polite">
+    <span id="toastIcon">🌸</span>
+    <span id="toastMsg">Operazione completata</span>
+  </div>
+
+  <script>
+    // Gestione Toast Notifiche
+    const toastBox = document.getElementById('toastBox');
+    const toastMsg = document.getElementById('toastMsg');
+    const toastIcon = document.getElementById('toastIcon');
+
+    window.showToast = function(msg, icon = '🌸') {
+      toastMsg.textContent = msg;
+      toastIcon.textContent = icon;
+      toastBox.classList.add('show');
+      setTimeout(() => {
+        toastBox.classList.remove('show');
+      }, 3200);
+    };
+
+    // Filtri Rapidi: Tutti, Scuola, Parco
+    const filterPills = document.querySelectorAll('.filter-pill');
+    const feedCards = document.querySelectorAll('.feed-card');
+    const cardCounter = document.getElementById('cardCounter');
+
+    filterPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        filterPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+
+        const filterVal = pill.getAttribute('data-filter');
+        let visibleCount = 0;
+
+        feedCards.forEach(card => {
+          const category = card.getAttribute('data-category');
+          if (filterVal === 'all' || category === filterVal) {
+            card.style.display = 'flex';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        cardCounter.textContent = `${visibleCount} annunc${visibleCount === 1 ? 'io' : 'i'}`;
+      });
+    });
+
+    // Modale Risposta Rapida
+    const replyModal = document.getElementById('replyModal');
+    const replyModalTitle = document.getElementById('replyModalTitle');
+    const replyModalDesc = document.getElementById('replyModalDesc');
+    const replyText = document.getElementById('replyText');
+    let currentTargetMom = '';
+
+    window.openReplyModal = function(momName, topic, timeEstimate) {
+      currentTargetMom = momName;
+      replyModalTitle.textContent = `Rispondi a ${momName}`;
+      replyModalDesc.textContent = `Annuncio: "${topic}" • Tempo stimato: ${timeEstimate}`;
+      replyText.value = `Ciao ${momName.split(' ')[1] || momName}! Ti do una mano volentieri io per ${topic}.`;
+      replyModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    };
+
+    window.closeReplyModal = function() {
+      replyModal.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+
+    window.setQuickReply = function(text) {
+      replyText.value = text;
+      replyText.focus();
+    };
+
+    window.sendReply = function() {
+      const message = replyText.value.trim();
+      if (!message) {
+        window.showToast('Inserisci un messaggio prima di inviare.', '⚠️');
+        return;
+      }
+      window.closeReplyModal();
+      window.showToast(`Messaggio inviato a ${currentTargetMom}! Chat aperta.`, '💬');
+    };
+
+    replyModal.addEventListener('click', (e) => {
+      if (e.target === replyModal) window.closeReplyModal();
+    });
+
+    // Modale Creazione Annuncio
+    const createModal = document.getElementById('createModal');
+    const createModalTitle = document.getElementById('createModalTitle');
+    const newAnnounceText = document.getElementById('newAnnounceText');
+
+    window.openCreateModal = function(type) {
+      if (type === 'sos') {
+        createModalTitle.textContent = '🚨 Richiedi Aiuto Rapido (SOS)';
+        document.getElementById('newAnnounceCategory').value = 'emergenza';
+        newAnnounceText.placeholder = 'es. Sono bloccata al lavoro per 30 minuti, chi può ritirare mio figlio Tommaso?';
+      } else {
+        createModalTitle.textContent = '➕ Offri Tempo e Disponibilità';
+        document.getElementById('newAnnounceCategory').value = 'parco';
+        newAnnounceText.placeholder = 'es. Oggi sono al parco giochi dalle 16:30, posso guardare anche altri bimbi!';
+      }
+      createModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    };
+
+    window.closeCreateModal = function() {
+      createModal.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+
+    createModal.addEventListener('click', (e) => {
+      if (e.target === createModal) window.closeCreateModal();
+    });
+
+    window.publishNewAnnouncement = function() {
+      const text = newAnnounceText.value.trim();
+      if (!text) {
+        window.showToast('Inserisci una breve descrizione del tuo annuncio.', '⚠️');
+        return;
+      }
+      window.closeCreateModal();
+      newAnnounceText.value = '';
+      window.showToast('Annuncio pubblicato con successo nella bacheca di quartiere!', '🎉');
+    };
+
+    // Navigazione Bottom Tab
+    window.switchTab = function(btn, title) {
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      btn.classList.add('active');
+      window.showToast(`Sezione: ${title}`, '📌');
+    };
+  </script>
+</body>
+</html>

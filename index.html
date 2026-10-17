@@ -932,7 +932,10 @@
       setTimeout(() => {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
-        showToast(`Benvenuta in SkillSwap Mamme! Connessione al plesso ${codeVal.toUpperCase()} riuscita.`, '🎉');
+        showToast(`Benvenuta in SkillSwap Mamme! Accesso in corso...`, '🎉');
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 800);
       }, 1000);
     });
 
